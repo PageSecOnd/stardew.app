@@ -34,6 +34,7 @@ import { fetchJson } from "@/lib/fetch";
 import { parseSaveFile } from "@/lib/file";
 import { toast } from "sonner";
 import { ScrollArea } from "../ui/scroll-area";
+import { useLocale } from "@/contexts/locale-context";
 
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import { IconSparkles } from "@tabler/icons-react";
@@ -62,6 +63,7 @@ export const MobileNav = ({
 	const pathname = usePathname();
 	const [loading, setLoading] = useState(false);
 	const { activePlayer, uploadPlayers } = useContext(PlayersContext);
+	const { t } = useLocale();
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		e.preventDefault();
@@ -73,8 +75,11 @@ export const MobileNav = ({
 		if (typeof file === "undefined" || !file) return;
 
 		if (file.type !== "") {
-			toast.error("Invalid file type", {
-				description: "Please upload a Stardew Valley save file.",
+			toast.error(t("home.toast.invalidType", "Invalid file type"), {
+				description: t(
+					"home.toast.invalidTypeDesc",
+					"Please upload a Stardew Valley save file.",
+				),
 			});
 			return;
 		}
@@ -98,7 +103,7 @@ export const MobileNav = ({
 
 			// Start the loading toast
 			toast.promise(uploadPromise, {
-				loading: "Uploading your save file...",
+				loading: t("home.toast.uploading", "Uploading your save file..."),
 				success: (data) => `${data}`,
 				error: (err) => `There was an error parsing your save file:\n${err}`,
 			});
@@ -117,7 +122,7 @@ export const MobileNav = ({
 					<div className="space-y-6 p-6">
 						{/* Actions */}
 						<section className="space-y-2">
-							<h3 className="font-semibold">stardew.app {version}</h3>
+								<h3 className="font-semibold">stardew.app {version}</h3>
 							{/* Upload, Login with Discord */}
 							<div className="grid grid-cols-1 gap-2">
 								{!api.data?.discord_id && (
@@ -130,7 +135,7 @@ export const MobileNav = ({
 												setIsOpen(false);
 											}}
 										>
-											Log In with Discord
+											{t("topbar.logInWithDiscord", "Log In with Discord")}
 										</Button>
 
 										<Button
@@ -140,7 +145,7 @@ export const MobileNav = ({
 												inputRef.current?.click();
 											}}
 										>
-											Upload
+											{t("mobileNav.upload", "Upload")}
 											<input
 												type="file"
 												ref={inputRef}
@@ -163,7 +168,9 @@ export const MobileNav = ({
 												onClick={() => setIsOpen(false)}
 											>
 												<IconSparkles size={20} />
-												<span>Feedback & Roadmap</span>
+												<span>
+													{t("topbar.feedbackRoadmap", "Feedback & Roadmap")}
+												</span>
 											</a>
 										</Button>
 									</>
@@ -195,7 +202,9 @@ export const MobileNav = ({
 												onClick={() => setIsOpen(false)}
 											>
 												<IconSparkles size={20} />
-												<span>Feedback & Roadmap</span>
+												<span>
+													{t("topbar.feedbackRoadmap", "Feedback & Roadmap")}
+												</span>
 											</a>
 										</Button>
 
@@ -210,7 +219,7 @@ export const MobileNav = ({
 													inputRef.current?.click();
 												}}
 											>
-												Upload
+												{t("mobileNav.upload", "Upload")}
 											</Button>
 											<Button
 												variant="destructive"
@@ -219,7 +228,7 @@ export const MobileNav = ({
 													setIsOpen(false);
 												}}
 											>
-												Delete saves
+												{t("mobileNav.deleteSaves", "Delete saves")}
 											</Button>
 										</div>
 
@@ -234,7 +243,7 @@ export const MobileNav = ({
 												className="flex items-center justify-center gap-2"
 											>
 												<PencilSquareIcon className="h-5 w-5" />
-												Edit Farmer
+												{t("mobileNav.editFarmer", "Edit Farmer")}
 											</Link>
 										</Button>
 
@@ -244,7 +253,7 @@ export const MobileNav = ({
 												return (window.location.href = "/");
 											}}
 										>
-											Log out
+											{t("topbar.logOut", "Log out")}
 										</Button>
 									</>
 								)}
@@ -256,7 +265,7 @@ export const MobileNav = ({
 							{/* Player */}
 							<section>
 								<h4 className="mb-2 mt-4 font-semibold tracking-tight text-neutral-700 dark:text-neutral-300">
-									Player
+									{t("mobileNav.playerLabel", "Player")}
 								</h4>
 								<div className="space-y-1">
 									{playerNavigation.map((item) => (
@@ -277,7 +286,7 @@ export const MobileNav = ({
 													className="mr-2 h-4 w-4"
 													aria-hidden="true"
 												/>
-												{item.name}
+												{t(item.labelKey, item.fallback)}
 											</Link>
 										</Button>
 									))}
@@ -286,7 +295,7 @@ export const MobileNav = ({
 							{/* Collections */}
 							<section>
 								<h4 className="mb-2 mt-4 font-semibold tracking-tight text-neutral-700 dark:text-neutral-300">
-									Collections
+									{t("mobileNav.collectionsLabel", "Collections")}
 								</h4>
 								<div className="space-y-1">
 									{collectionsNavigation.map((item) => (
@@ -307,7 +316,7 @@ export const MobileNav = ({
 													className="mr-2 h-4 w-4"
 													aria-hidden="true"
 												/>
-												{item.name}
+												{t(item.labelKey, item.fallback)}
 											</Link>
 										</Button>
 									))}
@@ -316,7 +325,7 @@ export const MobileNav = ({
 							{/* Ginger Island */}
 							<section>
 								<h4 className="mb-2 mt-4 font-semibold tracking-tight text-neutral-700 dark:text-neutral-300">
-									Ginger Island
+									{t("mobileNav.gingerIslandLabel", "Ginger Island")}
 								</h4>
 								<div className="space-y-1">
 									{islandNavigation.map((item) => (
@@ -337,7 +346,7 @@ export const MobileNav = ({
 													className="mr-2 h-4 w-4"
 													aria-hidden="true"
 												/>
-												{item.name}
+												{t(item.labelKey, item.fallback)}
 											</Link>
 										</Button>
 									))}
@@ -346,7 +355,7 @@ export const MobileNav = ({
 							{/* Misc */}
 							<section>
 								<h4 className="mb-2 mt-4 font-semibold tracking-tight text-neutral-700 dark:text-neutral-300">
-									Misc
+									{t("mobileNav.miscLabel", "Misc")}
 								</h4>
 								<div className="space-y-1">
 									{miscNavigation.map((item) => (
@@ -367,7 +376,7 @@ export const MobileNav = ({
 													className="mr-2 h-4 w-4"
 													aria-hidden="true"
 												/>
-												{item.name}
+												{t(item.labelKey, item.fallback)}
 											</Link>
 										</Button>
 									))}
@@ -376,7 +385,7 @@ export const MobileNav = ({
 							{/* Links, because fuck link buttons */}
 							<section>
 								<h4 className="mb-2 mt-4 font-semibold tracking-tight text-neutral-700 dark:text-neutral-300">
-									Links
+									{t("mobileNav.linksLabel", "Links")}
 								</h4>
 								<div className="space-y-1">
 									{linksNavigation.map((item) => (
@@ -397,7 +406,7 @@ export const MobileNav = ({
 													className="mr-2 h-4 w-4"
 													aria-hidden="true"
 												/>
-												{item.name}
+												{t(item.labelKey, item.fallback)}
 											</Link>
 										</Button>
 									))}

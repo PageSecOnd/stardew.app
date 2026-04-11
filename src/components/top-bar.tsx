@@ -31,9 +31,11 @@ import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { IconMoon, IconSparkles, IconSun } from "@tabler/icons-react";
 import { useTheme } from "next-themes";
 import { FeedbackDialog } from "./dialogs/feedback-dialog";
+import { LocaleSwitcher } from "./locale-switcher";
 import { LoginDialog } from "./dialogs/login-dialog";
 import { UploadDialog } from "./dialogs/upload-dialog";
 import { fetchJson } from "@/lib/fetch";
+import { useLocale } from "@/contexts/locale-context";
 
 export interface User {
 	id: string;
@@ -62,6 +64,7 @@ export function Topbar() {
 
 	const { activePlayer } = useContext(PlayersContext);
 	const { theme, setTheme } = useTheme();
+	const { t } = useLocale();
 
 	useEffect(() => {
 		setIsInternal(isInternalHostname(window.location.hostname));
@@ -91,11 +94,11 @@ export function Topbar() {
 						className="ml-2 flex items-center gap-1 rounded-full border border-blue-300 bg-blue-50 px-2.5 py-1 text-xs font-semibold text-blue-600 dark:border-blue-700 dark:bg-blue-950 dark:text-blue-300"
 					>
 						<IconSparkles size={12} />
-						What&apos;s new?
+						{t("topbar.whatsNew", "What's new?")}
 					</button>
 					{isInternal && (
 						<span className="ml-2 rounded-full bg-red-100 px-2 py-1 text-xs text-red-500 dark:bg-red-800 dark:text-red-400">
-							Internal
+							{t("common.internal", "Internal")}
 						</span>
 					)}
 				</div>
@@ -105,7 +108,7 @@ export function Topbar() {
 						variant="outline"
 						size="icon"
 						onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-						aria-label="Toggle theme"
+						aria-label={t("topbar.toggleTheme", "Toggle theme")}
 					>
 						<IconSun className="h-4 w-4 dark:hidden" />
 						<IconMoon className="hidden h-4 w-4 dark:block" />
@@ -116,11 +119,12 @@ export function Topbar() {
 				</div>
 				{/* Desktop Version */}
 				<div className="ml-auto hidden w-full space-x-2 sm:justify-end md:flex">
+					<LocaleSwitcher />
 					<Button
 						variant="outline"
 						size="icon"
 						onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-						aria-label="Toggle theme"
+						aria-label={t("topbar.toggleTheme", "Toggle theme")}
 					>
 						<IconSun className="h-4 w-4 dark:hidden" />
 						<IconMoon className="hidden h-4 w-4 dark:block" />
@@ -128,7 +132,9 @@ export function Topbar() {
 					<PresetSelector />
 					{activePlayer && (
 						<Button variant="outline" data-umami-event="Edit player">
-							<Link href={`/editor/edit`}>Edit Player</Link>
+							<Link href={`/editor/edit`}>
+								{t("topbar.editPlayer", "Edit Player")}
+							</Link>
 						</Button>
 					)}
 					<Button
@@ -137,7 +143,7 @@ export function Topbar() {
 						data-umami-event="Upload save"
 						className="hover:bg-green-500 hover:text-neutral-50 dark:hover:bg-green-500 dark:hover:text-neutral-50"
 					>
-						Upload Save
+						{t("topbar.uploadSave", "Upload Save")}
 					</Button>
 					{/* Not Logged In */}
 					{!api.data?.discord_id && (
@@ -148,7 +154,7 @@ export function Topbar() {
 								setLoginOpen(true);
 							}}
 						>
-							Log In with Discord
+							{t("topbar.logInWithDiscord", "Log In with Discord")}
 						</Button>
 					)}
 					{/* Logged In */}
@@ -188,7 +194,7 @@ export function Topbar() {
 										setCreditsOpen(true);
 									}}
 								>
-									Credits
+									{t("topbar.credits", "Credits")}
 								</DropdownMenuItem>
 								<DropdownMenuSeparator />
 
@@ -200,7 +206,7 @@ export function Topbar() {
 										);
 									}}
 								>
-									Send us a message!
+									{t("topbar.sendMessage", "Send us a message!")}
 								</DropdownMenuItem>
 								<DropdownMenuItem
 									onClick={() => {
@@ -210,7 +216,7 @@ export function Topbar() {
 										);
 									}}
 								>
-									Report a bug!
+									{t("topbar.reportBug", "Report a bug!")}
 								</DropdownMenuItem>
 								<DropdownMenuSeparator />
 
@@ -221,7 +227,7 @@ export function Topbar() {
 										setDeletionOpen(true);
 									}}
 								>
-									Delete Save Data
+									{t("topbar.deleteSaveData", "Delete Save Data")}
 								</DropdownMenuItem>
 
 								<DropdownMenuSeparator />
@@ -232,7 +238,7 @@ export function Topbar() {
 										return (window.location.href = "/");
 									}}
 								>
-									Log out
+									{t("topbar.logOut", "Log out")}
 								</DropdownMenuItem>
 							</DropdownMenuContent>
 						</DropdownMenu>

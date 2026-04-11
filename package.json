@@ -13,6 +13,7 @@
 		"dev": "next dev",
 		"dev:turbo": "next dev --turbopack",
 		"format": "bun run prettier . --check",
+		"i18n:check": "node scripts/check-i18n-keys.mjs",
 		"lint": "next lint",
 		"preview": "bun scripts/opennext.mjs preview",
 		"start": "next start",

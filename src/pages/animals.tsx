@@ -7,7 +7,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Command, CommandInput } from "@/components/ui/command";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { useLocale } from "@/contexts/locale-context";
 import { usePlayers } from "@/contexts/players-context";
+import { localeSort } from "@/lib/locale-format";
 import { AnimalsData, FarmAnimal, Pet } from "@/types/data";
 import {
 	IconAlertCircle,
@@ -93,6 +95,7 @@ const AnimalsLoading = () => (
 // Main animals content component
 const AnimalsContent = () => {
 	const { activePlayer } = usePlayers();
+	const { locale } = useLocale();
 	const [animalsData, setAnimalsData] = useState<AnimalsData | null>(null);
 	const [isLoading, setIsLoading] = useState(true);
 	const [search, setSearch] = useState("");
@@ -263,8 +266,8 @@ const AnimalsContent = () => {
 
 			if (typeof aValue === "string" && typeof bValue === "string") {
 				return sortOrder === "asc"
-					? aValue.localeCompare(bValue)
-					: bValue.localeCompare(aValue);
+					? localeSort(aValue, bValue, locale)
+					: localeSort(bValue, aValue, locale);
 			} else {
 				return sortOrder === "asc"
 					? (aValue as number) - (bValue as number)

@@ -1,5 +1,6 @@
 import type { PlayerType } from "@/contexts/players-context";
 import { useRouter } from "next/router";
+import { useLocale } from "@/contexts/locale-context";
 
 import { cn } from "@/lib/utils";
 import { useContext, useMemo, useState } from "react";
@@ -26,6 +27,7 @@ import {
 
 export function PresetSelector() {
 	const router = useRouter();
+	const { t } = useLocale();
 	const [open, setOpen] = useState(false);
 	const [search, setSearch] = useState("");
 	const { players, activePlayer, setActivePlayer } = useContext(PlayersContext);
@@ -34,14 +36,14 @@ export function PresetSelector() {
 		const farms = new Map<string, PlayerType[]>();
 
 		for (const player of players ?? []) {
-			const farmInfo = player.general?.farmInfo ?? "Unknown Farm";
+			const farmInfo = player.general?.farmInfo ?? t("preset.unknownFarm", "Unknown Farm");
 			const existingPlayers = farms.get(farmInfo) ?? [];
 			existingPlayers.push(player);
 			farms.set(farmInfo, existingPlayers);
 		}
 
 		return Array.from(farms.entries());
-	}, [players]);
+	}, [players, t]);
 
 	const filteredGroupedPlayers = useMemo(() => {
 		if (!search) return groupedPlayers;
@@ -72,12 +74,12 @@ export function PresetSelector() {
 				<Button
 					variant="outline"
 					role="combobox"
-					aria-label="Load a farmhand..."
+					aria-label={t("preset.loadFarmhand", "Load a farmhand...")}
 					aria-expanded={open}
 					className="flex-1 justify-between md:max-w-[200px]"
 				>
 					<p className="w-full max-w-full truncate text-left">
-						{activePlayer?.general?.name ?? "Load a farmhand..."}
+						{activePlayer?.general?.name ?? t("preset.loadFarmhand", "Load a farmhand...")}
 					</p>
 					<CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 				</Button>
@@ -89,7 +91,7 @@ export function PresetSelector() {
 				>
 					<MagnifyingGlassIcon className="mr-2 h-4 w-4 shrink-0 opacity-50" />
 					<input
-						placeholder="Search farmhands..."
+						placeholder={t("preset.searchFarmhands", "Search farmhands...")}
 						value={search}
 						onChange={(e) => setSearch(e.target.value)}
 						onKeyDown={(e) => e.stopPropagation()}
@@ -99,7 +101,7 @@ export function PresetSelector() {
 				<div className="max-h-[300px] overflow-y-auto overflow-x-hidden p-1">
 					{filteredGroupedPlayers.length === 0 && (
 						<p className="py-6 text-center text-sm text-neutral-500">
-							No farmhands found.
+							{t("preset.noFarmhandsFound", "No farmhands found.")}
 						</p>
 					)}
 					{filteredGroupedPlayers.map(([farmInfo, farmPlayers]) => (
@@ -116,7 +118,7 @@ export function PresetSelector() {
 									}}
 								>
 									<p className="w-full max-w-full truncate">
-										{player.general?.name ?? "Unnamed Farmhand"}
+										{player.general?.name ?? t("preset.unnamedFarmhand", "Unnamed Farmhand")}
 									</p>
 									<CheckIcon
 										className={cn(
@@ -138,7 +140,7 @@ export function PresetSelector() {
 						}}
 					>
 						<PlusIcon className="mr-2 h-4 w-4" />
-						New Farmhand
+						{t("preset.newFarmhand", "New Farmhand")}
 					</DropdownMenuItem>
 				</div>
 			</DropdownMenuContent>

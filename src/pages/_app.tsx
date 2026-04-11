@@ -8,6 +8,7 @@ import { Toaster } from "sonner";
 
 import { ThemeProvider } from "@/components/theme-provider";
 import { MultiSelectProvider } from "@/contexts/multi-select-context";
+import { LocaleProvider } from "@/contexts/locale-context";
 import { PlayersProvider } from "@/contexts/players-context";
 import { PreferencesProvider } from "@/contexts/preferences-context";
 import { fetchJson } from "@/lib/fetch";
@@ -24,27 +25,29 @@ export default function App({ Component, pageProps }: AppProps) {
 	});
 
 	return (
-		<ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-			<PlayersProvider>
-				<PreferencesProvider>
-					<MultiSelectProvider>
-						<div className={`${inter.className}`}>
-							<div className="fixed top-0 z-10 w-full bg-white dark:bg-neutral-950">
-								<Topbar />
-							</div>
-							<div className="pt-[65px]">
-								<Sidebar className="hidden max-h-[calc(100vh-65px)] overflow-y-auto overflow-x-clip md:fixed md:top-[65px] md:flex md:w-72 md:flex-col" />
-								<div className="md:pl-72">
-									<ErrorBoundary>
-										<Component {...pageProps} />
-									</ErrorBoundary>
-									<Toaster richColors />
+		<LocaleProvider>
+			<ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+				<PlayersProvider>
+					<PreferencesProvider>
+						<MultiSelectProvider>
+							<div className={`${inter.className}`}>
+								<div className="fixed top-0 z-10 w-full bg-white dark:bg-neutral-950">
+									<Topbar />
+								</div>
+								<div className="pt-[65px]">
+									<Sidebar className="hidden max-h-[calc(100vh-65px)] overflow-y-auto overflow-x-clip md:fixed md:top-[65px] md:flex md:w-72 md:flex-col" />
+									<div className="md:pl-72">
+										<ErrorBoundary>
+											<Component {...pageProps} />
+										</ErrorBoundary>
+										<Toaster richColors />
+									</div>
 								</div>
 							</div>
-						</div>
-					</MultiSelectProvider>
-				</PreferencesProvider>
-			</PlayersProvider>
-		</ThemeProvider>
+						</MultiSelectProvider>
+					</PreferencesProvider>
+				</PlayersProvider>
+			</ThemeProvider>
+		</LocaleProvider>
 	);
 }

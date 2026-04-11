@@ -10,9 +10,14 @@ import { usePlayers } from "@/contexts/players-context";
 
 import { LoginDialog } from "@/components/dialogs/login-dialog";
 import Link from "next/link";
+import { useLocale } from "@/contexts/locale-context";
+import { buildCanonical, buildHrefLangs } from "@/lib/seo";
+import { useRouter } from "next/router";
 
 export default function Home() {
 	const { uploadPlayers } = usePlayers();
+	const { locale, t } = useLocale();
+	const router = useRouter();
 	const [loginOpen, setLoginOpen] = useState(false);
 
 	const inputRef = useRef<HTMLInputElement | null>(null);
@@ -25,8 +30,11 @@ export default function Home() {
 		if (typeof file === "undefined" || !file) return;
 
 		if (file.type !== "") {
-			toast.error("Invalid File Type", {
-				description: "Please upload a Stardew Valley save file.",
+			toast.error(t("home.toast.invalidType", "Invalid File Type"), {
+				description: t(
+					"home.toast.invalidTypeDesc",
+					"Please upload a Stardew Valley save file.",
+				),
 			});
 			return;
 		}
@@ -34,8 +42,11 @@ export default function Home() {
 		const reader = new FileReader();
 
 		reader.onloadstart = () => {
-			toast.loading("Uploading Save File", {
-				description: "Please wait while we upload your save file.",
+			toast.loading(t("home.toast.uploading", "Uploading Save File"), {
+				description: t(
+					"home.toast.uploadingDesc",
+					"Please wait while we upload your save file.",
+				),
 			});
 		};
 
@@ -43,30 +54,57 @@ export default function Home() {
 			try {
 				const players = parseSaveFile(event.target?.result as string);
 				await uploadPlayers(players);
-				toast.success("Uploaded Save File", {
-					description: "Your save file has been uploaded successfully",
+				toast.success(t("home.toast.success", "Uploaded Save File"), {
+					description: t(
+						"home.toast.successDesc",
+						"Your save file has been uploaded successfully",
+					),
 				});
 			} catch (err) {
-				toast.error("Error Parsing File", {
-					description: err instanceof Error ? err.message : "Unknown error.",
+				toast.error(t("home.toast.parseError", "Error Parsing File"), {
+					description:
+						err instanceof Error
+							? err.message
+							: t("home.toast.unknownError", "Unknown error."),
 				});
 			}
 		};
 		reader.readAsText(file);
 	};
 
+	const canonical = buildCanonical("https://stardew.app", router.asPath, locale);
+	const hrefLangs = buildHrefLangs("https://stardew.app", router.asPath);
+
 	return (
 		<>
 			<Head>
-				<title>Stardew Valley Completion Tracker | stardew.app</title>
+				<title>
+					{t("home.seo.title", "Stardew Valley Completion Tracker | stardew.app")}
+				</title>
 				<meta
 					name="description"
-					content="Upload your Stardew Valley save file to track your progress towards 100% completion. Supports Stardew Valley 1.6 through 1.6.9."
+					content={t(
+						"home.seo.description",
+						"Upload your Stardew Valley save file to track your progress towards 100% completion. Supports Stardew Valley 1.6 through 1.6.9.",
+					)}
 				/>
 				<meta
 					name="keywords"
-					content="stardew valley tracker, stardew tracker, stardew valley perfection tracker, stardew perfection tracker, stardew completion tracker, stardew valley collection tracker, stardew progress checker, stardew valley checklist app, stardew valley tracker app, stardew valley app, stardew app, perfection tracker stardew, stardew checker, stardew valley checker, stardew valley completion tracker, tracker stardew valley, stardew valley save checker, stardew valley companion app, stardew valley progress tracker, stardew valley checklist app, stardew valley, stardew valley tracker app, stardew valley app, stardew valley 1.6.9, stardew 1.6.9, stardew valley 1.6.9 tracker, stardew valley 1.6.9 checklist, stardew valley 1.6 tracker, stardew valley 1.6 checklist"
+					content={t(
+						"home.seo.keywords",
+						"stardew valley tracker, stardew tracker, stardew valley perfection tracker, stardew perfection tracker, stardew completion tracker, stardew valley collection tracker, stardew progress checker, stardew valley checklist app, stardew valley tracker app, stardew valley app, stardew app",
+					)}
 				/>
+				<link rel="canonical" href={canonical} />
+				{hrefLangs.map((item) => (
+					<link
+						key={item.locale}
+						rel="alternate"
+						hrefLang={item.locale}
+						href={item.href}
+					/>
+				))}
+				<link rel="alternate" hrefLang="x-default" href={hrefLangs[0].href} />
 			</Head>
 			<main
 				className={`flex min-h-[calc(100vh-65px)] flex-col items-center border-neutral-200 px-5 pb-8 pt-2 dark:border-neutral-800 md:border-l md:px-8`}
@@ -80,15 +118,19 @@ export default function Home() {
 							width={64}
 							height={64}
 						/>
-						<h2 className="text-center text-3xl font-semibold">stardew.app</h2>
+						<h2 className="text-center text-3xl font-semibold">
+							{t("common.appName", "stardew.app")}
+						</h2>
 					</div>
 					<h3 className="text-center text-lg font-normal">
-						Your ultimate sidekick for conquering Stardew Valley. Seamlessly
-						upload your save files and let us do the heavy lifting, or take the
-						reins and manually update your progress. Join us in embracing the
-						thrills of growth, the joys of harvest, and the satisfaction of
-						inching closer to that coveted 100% completion in the heartwarming
-						world of Stardew Valley.
+						{t(
+							"home.hero.title",
+							"Your ultimate sidekick for conquering Stardew Valley.",
+						)}{" "}
+						{t(
+							"home.hero.description",
+							"Seamlessly upload your save files and let us do the heavy lifting, or take the reins and manually update your progress.",
+						)}
 					</h3>
 				</main>
 				<footer className="w-full p-2">
@@ -107,9 +149,14 @@ export default function Home() {
 								height={48}
 							/>
 							<div className="min-w-0 flex-1">
-								<p className="truncate font-medium">Log in with Discord</p>
+								<p className="truncate font-medium">
+									{t("home.cards.loginTitle", "Log in with Discord")}
+								</p>
 								<p className="truncate text-sm text-neutral-500 dark:text-neutral-400">
-									Link your Discord account to save your data across devices.
+									{t(
+										"home.cards.loginDesc",
+										"Link your Discord account to save your data across devices.",
+									)}
 								</p>
 							</div>
 						</div>
@@ -128,10 +175,14 @@ export default function Home() {
 								height={48}
 							/>
 							<div className="min-w-0 flex-1">
-								<p className="truncate font-medium">Upload a save file</p>
+								<p className="truncate font-medium">
+									{t("home.cards.uploadTitle", "Upload a save file")}
+								</p>
 								<p className="truncate text-sm text-neutral-500 dark:text-neutral-400">
-									Upload your save file to track your progress towards
-									perfection.
+									{t(
+										"home.cards.uploadDesc",
+										"Upload your save file to track your progress towards perfection.",
+									)}
 								</p>
 							</div>
 							<input
@@ -154,9 +205,14 @@ export default function Home() {
 									height={48}
 								/>
 								<div className="min-w-0 flex-1">
-									<p className="truncate font-medium">Create a farmhand</p>
+									<p className="truncate font-medium">
+										{t("home.cards.createTitle", "Create a farmhand")}
+									</p>
 									<p className="truncate text-sm text-neutral-500 dark:text-neutral-400">
-										Create a farmhand to track your progress towards perfection.
+										{t(
+											"home.cards.createDesc",
+											"Create a farmhand to track your progress towards perfection.",
+										)}
 									</p>
 								</div>
 							</div>
@@ -172,9 +228,14 @@ export default function Home() {
 									height={48}
 								/>
 								<div className="min-w-0 flex-1">
-									<p className="truncate font-medium">View on GitHub</p>
+									<p className="truncate font-medium">
+										{t("home.cards.githubTitle", "View on GitHub")}
+									</p>
 									<p className="truncate text-sm text-neutral-500 dark:text-neutral-400">
-										View the source code for this website on GitHub.
+										{t(
+											"home.cards.githubDesc",
+											"View the source code for this website on GitHub.",
+										)}
 									</p>
 								</div>
 							</div>
