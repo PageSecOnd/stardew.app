@@ -44,19 +44,19 @@ The website uses [Next.js](https://nextjs.org) for its frontend, self-hosted MyS
 
 ### Architecture
 
-- Routing i18n is configured in `/home/runner/work/stardew.app/stardew.app/next.config.js`.
-- Runtime locale state is handled by `/home/runner/work/stardew.app/stardew.app/src/contexts/locale-context.tsx` (router locale + cookie + localStorage sync).
+- Routing i18n is configured in `next.config.js`.
+- Runtime locale state is handled by `src/contexts/locale-context.tsx` (router locale + cookie + localStorage sync).
 - Translation resources live in:
-  - `/home/runner/work/stardew.app/stardew.app/src/i18n/messages/en.ts`
-  - `/home/runner/work/stardew.app/stardew.app/src/i18n/messages/zh-CN.ts`
-  - `/home/runner/work/stardew.app/stardew.app/src/i18n/messages/ja.ts`
-- Key lookup + fallback is centralized in `/home/runner/work/stardew.app/stardew.app/src/lib/i18n.ts`.
+  - `src/i18n/messages/en.ts`
+  - `src/i18n/messages/zh-CN.ts`
+  - `src/i18n/messages/ja.ts`
+- Key lookup + fallback is centralized in `src/lib/i18n.ts`.
 
 ### Data localization direction
 
 - Treat IDs as source of truth for logic.
-- Keep locale-specific display values in a presentation layer (see `/home/runner/work/stardew.app/stardew.app/src/lib/data-display.ts`) rather than coupling logic to English names.
-- Scripts now support locale-aware string loading with fallback in `/home/runner/work/stardew.app/stardew.app/scripts/helpers/utils.py`.
+- Keep locale-specific display values in a presentation layer (see `src/lib/data-display.ts`) rather than coupling logic to English names.
+- Scripts now support locale-aware string loading with fallback in `scripts/helpers/utils.py`.
 
 ### Quality checks
 

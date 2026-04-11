@@ -2,7 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 
 import { parseSaveFile } from "@/lib/file";
-import { ChangeEvent, useRef, useState } from "react";
+import { useRef, useState, type ChangeEvent } from "react";
 
 import { toast } from "sonner";
 

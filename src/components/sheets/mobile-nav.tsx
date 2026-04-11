@@ -120,7 +120,7 @@ export const MobileNav = ({
 					<div className="space-y-6 p-6">
 						{/* Actions */}
 						<section className="space-y-2">
-								<h3 className="font-semibold">stardew.app {version}</h3>
+							<h3 className="font-semibold">stardew.app {version}</h3>
 							{/* Upload, Login with Discord */}
 							<div className="grid grid-cols-1 gap-2">
 								{!api.data?.discord_id && (

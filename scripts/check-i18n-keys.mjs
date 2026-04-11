@@ -3,7 +3,7 @@ import path from "node:path";
 import vm from "node:vm";
 import ts from "typescript";
 
-const repoRoot = "/home/runner/work/stardew.app/stardew.app";
+const repoRoot = process.cwd();
 
 function loadMessages(filePath, exportName) {
 	const source = fs.readFileSync(filePath, "utf8");
