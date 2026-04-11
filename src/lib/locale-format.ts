@@ -1,4 +1,4 @@
-import { AppLocale } from "@/i18n/config";
+import type { AppLocale } from "@/i18n/config";
 
 const seasonLabels: Record<string, Record<AppLocale, string>> = {
 	Spring: { en: "Spring", "zh-CN": "春季", ja: "春" },

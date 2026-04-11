@@ -7,12 +7,11 @@ import { clearClientAuthCookies } from "@/lib/client-env";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import {
-	ChangeEvent,
-	Dispatch,
-	MutableRefObject,
-	SetStateAction,
 	useContext,
-	useState,
+	type ChangeEvent,
+	type Dispatch,
+	type MutableRefObject,
+	type SetStateAction,
 } from "react";
 
 import packageJson from "../../../package.json";
@@ -61,8 +60,7 @@ export const MobileNav = ({
 	});
 
 	const pathname = usePathname();
-	const [loading, setLoading] = useState(false);
-	const { activePlayer, uploadPlayers } = useContext(PlayersContext);
+	const { uploadPlayers } = useContext(PlayersContext);
 	const { t } = useLocale();
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

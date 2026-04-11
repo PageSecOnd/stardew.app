@@ -1,4 +1,5 @@
-import { AppLocale, DEFAULT_LOCALE, SUPPORTED_LOCALES } from "@/i18n/config";
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "@/i18n/config";
+import type { AppLocale } from "@/i18n/config";
 
 function stripLocalePrefix(path: string): string {
 	const normalized = path.split("?")[0] || "/";

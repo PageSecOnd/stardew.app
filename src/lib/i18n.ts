@@ -1,6 +1,7 @@
-import { AppLocale, DEFAULT_LOCALE, SUPPORTED_LOCALES } from "@/i18n/config";
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "@/i18n/config";
+import type { AppLocale } from "@/i18n/config";
 import { getLocaleMessages } from "@/i18n/messages";
-import { TranslationTree } from "@/i18n/types";
+import type { TranslationTree } from "@/i18n/types";
 
 export function getMessage(tree: TranslationTree, key: string): string | undefined {
 	const parts = key.split(".");

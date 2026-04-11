@@ -1,8 +1,9 @@
-import { DEFAULT_LOCALE, type AppLocale } from "@/i18n/config";
+import { DEFAULT_LOCALE } from "@/i18n/config";
+import type { AppLocale } from "@/i18n/config";
 import { enMessages } from "@/i18n/messages/en";
 import { jaMessages } from "@/i18n/messages/ja";
 import { zhCNMessages } from "@/i18n/messages/zh-CN";
-import { TranslationTree } from "@/i18n/types";
+import type { TranslationTree } from "@/i18n/types";
 
 const localeMessages: Record<AppLocale, TranslationTree> = {
 	en: enMessages,

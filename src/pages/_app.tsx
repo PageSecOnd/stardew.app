@@ -3,7 +3,7 @@ import type { AppProps } from "next/app";
 import { Inter } from "next/font/google";
 
 import { Sidebar } from "@/components/sidebar";
-import { Topbar, User } from "@/components/top-bar";
+import { Topbar } from "@/components/top-bar";
 import { Toaster } from "sonner";
 
 import { ThemeProvider } from "@/components/theme-provider";
@@ -11,19 +11,12 @@ import { MultiSelectProvider } from "@/contexts/multi-select-context";
 import { LocaleProvider } from "@/contexts/locale-context";
 import { PlayersProvider } from "@/contexts/players-context";
 import { PreferencesProvider } from "@/contexts/preferences-context";
-import { fetchJson } from "@/lib/fetch";
 
 import ErrorBoundary from "@/components/error-boundary";
-import useSWR from "swr";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function App({ Component, pageProps }: AppProps) {
-	const api = useSWR<User>("/api/me", fetchJson<User>, {
-		refreshInterval: 0,
-		revalidateOnFocus: false,
-	});
-
 	return (
 		<LocaleProvider>
 			<ThemeProvider attribute="class" defaultTheme="system" enableSystem>

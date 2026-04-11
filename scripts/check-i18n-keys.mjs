@@ -61,7 +61,7 @@ const jaKeys = new Set(flattenKeys(ja));
 const usedKeys = new Set();
 for (const file of walk(path.join(repoRoot, "src"))) {
 	const source = fs.readFileSync(file, "utf8");
-	for (const match of source.matchAll(/t\(\s*["'`]([^"'`]+)["'`]/g)) {
+	for (const match of source.matchAll(/\bt\s*\(\s*["'`]([^"'`]+)["'`]/g)) {
 		usedKeys.add(match[1]);
 	}
 }

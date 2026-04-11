@@ -39,7 +39,7 @@ import {
 } from "@/components/ui/tooltip";
 import { DiscordLogoIcon, GitHubLogoIcon } from "@radix-ui/react-icons";
 
-interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
+type SidebarProps = React.HTMLAttributes<HTMLDivElement>;
 
 export const miscNavigation = [
 	{ labelKey: "nav.misc.bundles", fallback: "Bundles", href: "/bundles", icon: IconBox },

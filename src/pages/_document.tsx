@@ -6,7 +6,8 @@ import Document, {
 	type DocumentContext,
 	type DocumentInitialProps,
 } from "next/document";
-import { AppLocale, DEFAULT_LOCALE, isSupportedLocale } from "@/i18n/config";
+import { DEFAULT_LOCALE, isSupportedLocale } from "@/i18n/config";
+import type { AppLocale } from "@/i18n/config";
 
 const descriptions: Record<AppLocale, string> = {
 	en: "Keep track of your Stardew Valley progression through 1.6.9. Upload your save file and track your progress towards 100% completion.",

@@ -1,4 +1,4 @@
-import { TranslationTree } from "@/i18n/types";
+import type { TranslationTree } from "@/i18n/types";
 
 export const jaMessages: TranslationTree = {
 	common: {

@@ -1,10 +1,10 @@
 import {
-	AppLocale,
 	DEFAULT_LOCALE,
 	LOCALE_COOKIE_KEY,
 	LOCALE_STORAGE_KEY,
 	isSupportedLocale,
 } from "@/i18n/config";
+import type { AppLocale } from "@/i18n/config";
 import { normalizeLocale, tByLocale } from "@/lib/i18n";
 import { useRouter } from "next/router";
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";

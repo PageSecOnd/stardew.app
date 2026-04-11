@@ -1,5 +1,6 @@
 import { useLocale } from "@/contexts/locale-context";
-import { AppLocale, SUPPORTED_LOCALES } from "@/i18n/config";
+import { SUPPORTED_LOCALES } from "@/i18n/config";
+import type { AppLocale } from "@/i18n/config";
 import {
 	Select,
 	SelectContent,
