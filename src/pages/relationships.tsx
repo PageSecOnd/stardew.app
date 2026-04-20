@@ -13,6 +13,8 @@ import { InfoCard } from "@/components/cards/info-card";
 import { VillagerCard } from "@/components/cards/villager-card";
 import { FilterSearch } from "@/components/filter-btn";
 import { VillagerSheet } from "@/components/sheets/villager-sheet";
+import { useLocale } from "@/contexts/locale-context";
+import { localeSort } from "@/lib/locale-format";
 import {
 	Accordion,
 	AccordionContent,
@@ -49,6 +51,7 @@ const bubbleColors: Record<string, string> = {
 
 export default function Relationships() {
 	const { activePlayer } = usePlayers();
+	const { locale } = useLocale();
 
 	const [open, setIsOpen] = useState(false);
 	const [search, setSearch] = useState("");
@@ -356,7 +359,7 @@ export default function Relationships() {
 												0)
 										);
 									} else {
-										return a.name.localeCompare(b.name);
+										return localeSort(a.name, b.name, locale);
 									}
 								})
 								.map((v) => (

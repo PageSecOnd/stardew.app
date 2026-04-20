@@ -8,6 +8,11 @@ const nextConfig = {
 	reactStrictMode: true,
 	typescript: { ignoreBuildErrors: true },
 	eslint: { ignoreDuringBuilds: true },
+	i18n: {
+		locales: ["en", "zh-CN", "ja"],
+		defaultLocale: "en",
+		localeDetection: false,
+	},
 	rewrites: async () => {
 		return [
 			{

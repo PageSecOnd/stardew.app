@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useLocale } from "@/contexts/locale-context";
 
 import { Button } from "@/components/ui/button";
 
@@ -38,44 +39,45 @@ import {
 } from "@/components/ui/tooltip";
 import { DiscordLogoIcon, GitHubLogoIcon } from "@radix-ui/react-icons";
 
-interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
+type SidebarProps = React.HTMLAttributes<HTMLDivElement>;
 
 export const miscNavigation = [
-	{ name: "Bundles", href: "/bundles", icon: IconBox },
-	{ name: "Secret Notes", href: "/notes", icon: IconNote },
-	{ name: "Rarecrows", href: "/rarecrows", icon: IconCarrot },
-	{ name: "Account Settings", href: "/account", icon: IconSettings },
+	{ labelKey: "nav.misc.bundles", fallback: "Bundles", href: "/bundles", icon: IconBox },
+	{ labelKey: "nav.misc.notes", fallback: "Secret Notes", href: "/notes", icon: IconNote },
+	{ labelKey: "nav.misc.rarecrows", fallback: "Rarecrows", href: "/rarecrows", icon: IconCarrot },
+	{ labelKey: "nav.misc.account", fallback: "Account Settings", href: "/account", icon: IconSettings },
 ];
 
 export const playerNavigation = [
-	{ name: "Home", href: "/", icon: IconHome2 },
-	{ name: "Farmer", href: "/farmer", icon: IconId },
-	{ name: "Skills & Mastery", href: "/skills", icon: IconStars },
-	{ name: "Relationships", href: "/relationships", icon: IconHeart },
-	{ name: "Animals", href: "/animals", icon: IconPaw },
-	{ name: "Perfection", href: "/perfection", icon: IconAward },
-	{ name: "Grandpa's Evaluation", href: "/grandpa", icon: IconFlameFilled },
+	{ labelKey: "nav.player.home", fallback: "Home", href: "/", icon: IconHome2 },
+	{ labelKey: "nav.player.farmer", fallback: "Farmer", href: "/farmer", icon: IconId },
+	{ labelKey: "nav.player.skills", fallback: "Skills & Mastery", href: "/skills", icon: IconStars },
+	{ labelKey: "nav.player.relationships", fallback: "Relationships", href: "/relationships", icon: IconHeart },
+	{ labelKey: "nav.player.animals", fallback: "Animals", href: "/animals", icon: IconPaw },
+	{ labelKey: "nav.player.perfection", fallback: "Perfection", href: "/perfection", icon: IconAward },
+	{ labelKey: "nav.player.grandpa", fallback: "Grandpa's Evaluation", href: "/grandpa", icon: IconFlameFilled },
 ];
 
 export const collectionsNavigation = [
-	{ name: "Cooking", href: "/cooking", icon: IconEgg },
-	{ name: "Crafting", href: "/crafting", icon: IconHammer },
-	{ name: "Fishing", href: "/fishing", icon: IconFishHook },
-	{ name: "Shipping", href: "/shipping", icon: IconGardenCart },
-	{ name: "Museum", href: "/museum", icon: IconBuildingWarehouse },
+	{ labelKey: "nav.collections.cooking", fallback: "Cooking", href: "/cooking", icon: IconEgg },
+	{ labelKey: "nav.collections.crafting", fallback: "Crafting", href: "/crafting", icon: IconHammer },
+	{ labelKey: "nav.collections.fishing", fallback: "Fishing", href: "/fishing", icon: IconFishHook },
+	{ labelKey: "nav.collections.shipping", fallback: "Shipping", href: "/shipping", icon: IconGardenCart },
+	{ labelKey: "nav.collections.museum", fallback: "Museum", href: "/museum", icon: IconBuildingWarehouse },
 ];
 
 export const islandNavigation = [
-	{ name: "Golden Walnuts", href: "/island/walnuts", icon: IconProgress },
-	{ name: "Journal Scraps", href: "/island/scraps", icon: IconBook },
-	{ name: "Island Upgrades", href: "/island/upgrades", icon: IconPencilUp },
+	{ labelKey: "nav.island.walnuts", fallback: "Golden Walnuts", href: "/island/walnuts", icon: IconProgress },
+	{ labelKey: "nav.island.scraps", fallback: "Journal Scraps", href: "/island/scraps", icon: IconBook },
+	{ labelKey: "nav.island.upgrades", fallback: "Island Upgrades", href: "/island/upgrades", icon: IconPencilUp },
 ];
 
 export const linksNavigation = [
-	{ name: "Discord", href: "/discord", icon: DiscordLogoIcon },
-	{ name: "GitHub", href: "/github", icon: GitHubLogoIcon },
+	{ labelKey: "nav.links.discord", fallback: "Discord", href: "/discord", icon: DiscordLogoIcon },
+	{ labelKey: "nav.links.github", fallback: "GitHub", href: "/github", icon: GitHubLogoIcon },
 	{
-		name: "stardew.me",
+		labelKey: "nav.links.stardewme",
+		fallback: "stardew.me",
 		href: "https://stardew.me/?utm_campaign=StardewApp&utm_source=Beta&utm_medium=Button",
 		icon: IconShirt,
 	},
@@ -89,6 +91,7 @@ export const SidebarCategory = ({ children }: { children: string }) => (
 
 export function Sidebar({ className }: SidebarProps) {
 	const pathname = usePathname();
+	const { t } = useLocale();
 
 	return (
 		<div className={className}>
@@ -109,12 +112,12 @@ export function Sidebar({ className }: SidebarProps) {
 										className="flex items-center gap-2"
 									>
 										<IconSparkles size={20} />
-										<span>Feedback & Roadmap</span>
+										<span>{t("topbar.feedbackRoadmap", "Feedback & Roadmap")}</span>
 									</a>
 								</Button>
 							</TooltipTrigger>
 							<TooltipContent side="left">
-								<p>Share your thoughts with us!</p>
+								<p>{t("topbar.shareThoughts", "Share your thoughts with us!")}</p>
 							</TooltipContent>
 						</Tooltip>
 					</TooltipProvider>
@@ -133,7 +136,7 @@ export function Sidebar({ className }: SidebarProps) {
 							</Button>
 						</TooltipTrigger>
 						<TooltipContent side="bottom">
-							<p>Join our Discord!</p>
+							<p>{t("topbar.joinDiscord", "Join our Discord!")}</p>
 						</TooltipContent>
 					</Tooltip>
 				</TooltipProvider>
@@ -152,7 +155,7 @@ export function Sidebar({ className }: SidebarProps) {
 							</Button>
 						</TooltipTrigger>
 						<TooltipContent side="bottom">
-							<p>stardew.app&apos;s source!</p>
+							<p>{t("topbar.sourceTooltip", "stardew.app's source!")}</p>
 						</TooltipContent>
 					</Tooltip>
 				</TooltipProvider>
@@ -177,13 +180,13 @@ export function Sidebar({ className }: SidebarProps) {
 							</Button>
 						</TooltipTrigger>
 						<TooltipContent side="bottom">
-							<p>Generate a Stardew avatar!</p>
+							<p>{t("topbar.avatarTooltip", "Generate a Stardew avatar!")}</p>
 						</TooltipContent>
 					</Tooltip>
 				</TooltipProvider>
 			</div>
 			<nav className="px-3 pb-2">
-				<SidebarCategory>Player</SidebarCategory>
+				<SidebarCategory>{t("nav.category.player", "Player")}</SidebarCategory>
 				<div className="space-y-1">
 					{playerNavigation.map((item) => (
 						<Button
@@ -199,12 +202,12 @@ export function Sidebar({ className }: SidebarProps) {
 						>
 							<Link href={item.href}>
 								<item.icon className="mr-2 h-4 w-4" aria-hidden="true" />
-								{item.name}
+								{t(item.labelKey, item.fallback)}
 							</Link>
 						</Button>
 					))}
 				</div>
-				<SidebarCategory>Collections</SidebarCategory>
+				<SidebarCategory>{t("nav.category.collections", "Collections")}</SidebarCategory>
 				<div className="space-y-1">
 					{collectionsNavigation.map((item) => (
 						<Button
@@ -220,13 +223,13 @@ export function Sidebar({ className }: SidebarProps) {
 						>
 							<Link href={item.href}>
 								<item.icon className="mr-2 h-4 w-4" aria-hidden="true" />
-								{item.name}
+								{t(item.labelKey, item.fallback)}
 							</Link>
 						</Button>
 					))}
 				</div>
 
-				<SidebarCategory>Ginger Island</SidebarCategory>
+				<SidebarCategory>{t("nav.category.gingerIsland", "Ginger Island")}</SidebarCategory>
 				<div className="space-y-1">
 					{islandNavigation.map((item) => (
 						<Button
@@ -242,13 +245,13 @@ export function Sidebar({ className }: SidebarProps) {
 						>
 							<Link href={item.href}>
 								<item.icon className="mr-2 h-4 w-4" aria-hidden="true" />
-								{item.name}
+								{t(item.labelKey, item.fallback)}
 							</Link>
 						</Button>
 					))}
 				</div>
 
-				<SidebarCategory>Misc</SidebarCategory>
+				<SidebarCategory>{t("nav.category.misc", "Misc")}</SidebarCategory>
 				<div className="space-y-1">
 					{miscNavigation.map((item) => (
 						<Button
@@ -264,7 +267,7 @@ export function Sidebar({ className }: SidebarProps) {
 						>
 							<Link href={item.href}>
 								<item.icon className="mr-2 h-4 w-4" aria-hidden="true" />
-								{item.name}
+								{t(item.labelKey, item.fallback)}
 							</Link>
 						</Button>
 					))}

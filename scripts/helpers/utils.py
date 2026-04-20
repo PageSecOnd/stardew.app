@@ -56,7 +56,7 @@ def load_data(file_name: str) -> dict:
 strings_cache = {}
 
 
-def load_strings(file_name: str) -> dict[str, str]:
+def load_strings(file_name: str, locale: str = "en") -> dict[str, str]:
     """Loads a json file from the Strings directory and returns it as a dictionary
 
     Args:
@@ -69,16 +69,25 @@ def load_strings(file_name: str) -> dict[str, str]:
     if not file_name.endswith(".json"):
         file_name += ".json"
 
-    if file_name in strings_cache:
-        return strings_cache[file_name]
+    cache_key = f"{locale}:{file_name}"
+    if cache_key in strings_cache:
+        return strings_cache[cache_key]
 
-    strings_path = os.path.join(
-            os.path.dirname(__file__), "..", "content", "Strings", file_name
+    localized_strings_path = os.path.join(
+        os.path.dirname(__file__), "..", "content", "Strings", locale, file_name
+    )
+    legacy_strings_path = os.path.join(
+        os.path.dirname(__file__), "..", "content", "Strings", file_name
+    )
+    strings_path = (
+        localized_strings_path
+        if os.path.exists(localized_strings_path)
+        else legacy_strings_path
     )
 
     with open(strings_path, "r") as f:
-        strings_cache[file_name] = json.load(f)
-        return strings_cache[file_name]
+        strings_cache[cache_key] = json.load(f)
+        return strings_cache[cache_key]
 
 
 def save_json(
